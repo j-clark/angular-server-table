@@ -7,11 +7,20 @@ describe DoodadsController do
 
     before do
       allow(Doodad).to receive(:all).and_return(doodads)
-      get :index
     end
 
-    it 'renders all doodads as json' do
-      expect(response.body).to eq({ doodads: doodads }.to_json)
+    describe "rendering json" do
+      it 'renders all doodads as json' do
+        get :index, format: :json
+
+        expect(response.body).to eq({ doodads: doodads }.to_json)
+      end
+    end
+
+    it 'assigns all doodads' do
+      get :index
+
+      expect(assigns(:doodads)).to eq(doodads)
     end
   end
 end
