@@ -3,7 +3,7 @@
   <button id="next-page" ng-show="hasMore()">Next</button>
   <table>
     <thead>
-      <th ng-repeat="header in headers">{{header}}</th>
+      <th ng-click="order(header)" ng-repeat="header in headers">{{header}}</th>
     </thead>
     <tbody>
       <tr ng-repeat="doodad in doodads">

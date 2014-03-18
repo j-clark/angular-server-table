@@ -1,6 +1,6 @@
 class DoodadsController < ApplicationController
   def index
-    @doodads = Doodad.all.limit(10).offset(offset)
+    @doodads = Doodad.all.limit(10).offset(offset).order(order)
 
     respond_to do |format|
       format.html
@@ -16,5 +16,9 @@ class DoodadsController < ApplicationController
   def offset
     page = params[:page]
     10 * (page ? Integer(page) - 1 : 0)
+  end
+
+  def order
+    params[:order]
   end
 end

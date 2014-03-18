@@ -22,32 +22,42 @@ app.directive('serverTable', function() {
 });
 
 app.controller('TableController', function($scope, $http) {
-  $scope.page = 1;
+  var page = 1;
+  var property = null;
   $scope.headers = ['Name', 'Value'];
+
   $scope.doodads = $http.get('/doodads.json').then(function(response) {
     $scope.total = response.data.total;
     $scope.doodads = response.data.doodads;
   });
 
   $scope.previousPage = function() {
-    $scope.page -= 1;
-    $scope.doodads = $http.get('/doodads.json', {params: {page: $scope.page}}).then(function(response) {
+    page -= 1;
+
+    $scope.doodads = $http.get('/doodads.json', {params: {page: page, order: property}}).then(function(response) {
       $scope.doodads = response.data.doodads;
     });
   };
 
   $scope.nextPage = function() {
-    $scope.page += 1;
-    $scope.doodads = $http.get('/doodads.json', {params: {page: $scope.page}}).then(function(response) {
+    page += 1;
+    $scope.doodads = $http.get('/doodads.json', {params: {page: page, order: property}}).then(function(response) {
+      $scope.doodads = response.data.doodads;
+    });
+  };
+
+  $scope.order = function(orderProperty) {
+    property = orderProperty;
+    $scope.doodads = $http.get('/doodads.json', {params: {page: page, order: property}}).then(function(response) {
       $scope.doodads = response.data.doodads;
     });
   };
 
   $scope.notFirstPage = function() {
-    return $scope.page > 1;
+    return page > 1;
   };
 
   $scope.hasMore = function() {
-    return $scope.page * 10 < $scope.total;
+    return page * 10 < $scope.total;
   };
 });
