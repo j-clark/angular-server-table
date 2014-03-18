@@ -1,4 +1,6 @@
 <div>
+  <button id="previous-page" ng-show="notFirstPage()">Previous</button>
+  <button id="next-page" ng-show="hasMore()">Next</button>
   <table>
     <thead>
       <th ng-repeat="header in headers">{{header}}</th>
