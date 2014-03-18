@@ -23,34 +23,33 @@ app.directive('serverTable', function() {
 
 app.controller('TableController', function($scope, $http) {
   var page = 1;
-  var property = null;
+  var orderProperty = null;
+  var total = null;
+  var orderDirection = "asc";
   $scope.headers = ['Name', 'Value'];
 
   $scope.doodads = $http.get('/doodads.json').then(function(response) {
-    $scope.total = response.data.total;
+    total = response.data.total;
     $scope.doodads = response.data.doodads;
   });
 
   $scope.previousPage = function() {
     page -= 1;
-
-    $scope.doodads = $http.get('/doodads.json', {params: {page: page, order: property}}).then(function(response) {
-      $scope.doodads = response.data.doodads;
-    });
+    updateDoodads();
   };
 
   $scope.nextPage = function() {
     page += 1;
-    $scope.doodads = $http.get('/doodads.json', {params: {page: page, order: property}}).then(function(response) {
-      $scope.doodads = response.data.doodads;
-    });
+    updateDoodads();
   };
 
-  $scope.order = function(orderProperty) {
-    property = orderProperty;
-    $scope.doodads = $http.get('/doodads.json', {params: {page: page, order: property}}).then(function(response) {
-      $scope.doodads = response.data.doodads;
-    });
+  $scope.order = function(property) {
+    if(property === orderProperty) {
+      toggleDirection();
+    }
+
+    orderProperty = property;
+    updateDoodads();
   };
 
   $scope.notFirstPage = function() {
@@ -58,6 +57,26 @@ app.controller('TableController', function($scope, $http) {
   };
 
   $scope.hasMore = function() {
-    return page * 10 < $scope.total;
+    return page * 10 < total;
   };
+
+  function toggleDirection() {
+    if(orderDirection === "asc") {
+      orderDirection = "desc";
+    } else {
+      orderDirection = "asc";
+    }
+  }
+
+  function updateDoodads() {
+    $scope.doodads = $http.get('/doodads.json', {
+      params: {
+        page: page,
+        orderProperty: orderProperty,
+        orderDirection: orderDirection
+      }
+    }).then(function(response) {
+      $scope.doodads = response.data.doodads;
+    });
+  }
 });

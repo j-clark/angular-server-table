@@ -19,6 +19,9 @@ class DoodadsController < ApplicationController
   end
 
   def order
-    params[:order]
+    return nil unless params[:orderProperty].present?
+
+    "#{params[:orderProperty]} #{params[:orderDirection]}"
   end
+
 end
