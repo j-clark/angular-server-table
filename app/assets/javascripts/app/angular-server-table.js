@@ -31,13 +31,9 @@ app.controller('TableController', function($scope, $http, localeService) {
   var page = 1;
   var orderProperty = null;
   var total = null;
-  var orderDirection = "asc";
-  $scope.headers = ['Name', 'Value'];
+  var orderDirection = 'asc';
 
-  $scope.doodads = $http.get('/doodads.json').then(function(response) {
-    total = response.data.total;
-    $scope.doodads = response.data.doodads;
-  });
+  updateDoodads();
 
   $scope.previousPage = function() {
     page -= 1;
@@ -67,10 +63,10 @@ app.controller('TableController', function($scope, $http, localeService) {
   };
 
   function toggleDirection() {
-    if(orderDirection === "asc") {
-      orderDirection = "desc";
+    if(orderDirection === 'asc') {
+      orderDirection = 'desc';
     } else {
-      orderDirection = "asc";
+      orderDirection = 'asc';
     }
   }
 
@@ -83,12 +79,13 @@ app.controller('TableController', function($scope, $http, localeService) {
       }
     }).then(function(response) {
       $scope.doodads = response.data.doodads;
+      total = response.data.total;
     });
   }
 });
 
 app.service('localeService', function() {
-  var locale = "fr";
+  var locale = 'fr';
   return {
     getLocale: function() {
       return locale;
