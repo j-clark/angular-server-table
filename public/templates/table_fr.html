@@ -1,0 +1,16 @@
+<div>
+  <button id="previous-page" ng-show="notFirstPage()">Le Previous</button>
+  <button id="next-page" ng-show="hasMore()">Le Next</button>
+  <table>
+    <thead>
+      <th ng-click="order('name')">Le Name</th>
+      <th ng-click="order('value')">Le Value</th>
+    </thead>
+    <tbody>
+      <tr ng-repeat="doodad in doodads">
+        <td>{{doodad.name}}</td>
+        <td>{{doodad.value}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -2,12 +2,16 @@ var app = angular.module('angularServerTable', function() {
 
 });
 
-app.directive('serverTable', function() {
+app.directive('serverTable', function(localeService) {
+
   return {
-    // scope: {'doodads': '='},
-    templateUrl: 'templates/table.html',
-    replace: true,
+
+    templateUrl: function(_, attrs) {
+      return 'templates/table_' + localeService.getLocale() + '.html';
+    },
+
     link: function(scope, elem, attrs) {
+
       elem.find('#previous-page').click(function() {
         scope.previousPage();
         scope.$apply();
@@ -17,11 +21,13 @@ app.directive('serverTable', function() {
         scope.nextPage();
         scope.$apply();
       });
+
     }
+
   };
 });
 
-app.controller('TableController', function($scope, $http) {
+app.controller('TableController', function($scope, $http, localeService) {
   var page = 1;
   var orderProperty = null;
   var total = null;
@@ -79,4 +85,13 @@ app.controller('TableController', function($scope, $http) {
       $scope.doodads = response.data.doodads;
     });
   }
+});
+
+app.service('localeService', function() {
+  var locale = "fr";
+  return {
+    getLocale: function() {
+      return locale;
+    }
+  };
 });
