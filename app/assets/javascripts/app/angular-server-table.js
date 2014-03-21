@@ -71,7 +71,7 @@ app.controller('TableController', function($scope, $http, localeService) {
   }
 
   function updateDoodads() {
-    $scope.doodads = $http.get('/doodads.json', {
+    $http.get('/doodads.json', {
       params: {
         page: page,
         orderProperty: orderProperty,
