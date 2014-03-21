@@ -11,8 +11,8 @@ class DoodadsController < ApplicationController
           links: {
             nextPage: page < page_count ? path_but(page: page + 1) : nil,
             prevPage: page > 1 ? path_but(page: page - 1) : nil,
-            reorderName: order_property == :name ? path_but(order_asc: !order_asc?) : path_but(order_property: :name, order_asc: true),
-            reorderValue: order_property == :value ? path_but(order_asc: !order_asc?) : path_but(order_property: :value, order_asc: true),
+            reorderName: order_property == :name ? path_but(order_desc: !order_desc?) : path_but(order_property: :name, order_desc: false),
+            reorderValue: order_property == :value ? path_but(order_desc: !order_desc?) : path_but(order_property: :value, order_desc: false),
             pages: 1.upto(page_count).map { |page_num| { num: page_num, href: path_but(page: page_num)} }
           }
         }
@@ -27,7 +27,7 @@ class DoodadsController < ApplicationController
   end
 
   def order
-    "#{order_property} #{order_asc? ? 'asc' : 'desc'}"
+    "#{order_property} #{order_desc? ? 'desc' : 'asc'}"
   end
 
   def page
@@ -54,7 +54,7 @@ class DoodadsController < ApplicationController
     params[:order_property].try(:intern) || :name
   end
 
-  def order_asc?
-    params[:order_asc] ? params[:order_asc] == 'true' : true
+  def order_desc?
+    params[:order_desc] == 'true'
   end
 end
