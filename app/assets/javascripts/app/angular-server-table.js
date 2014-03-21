@@ -3,27 +3,10 @@ var app = angular.module('angularServerTable', function() {
 });
 
 app.directive('serverTable', function(localeService) {
-
   return {
-
     templateUrl: function(_, attrs) {
       return 'templates/table_' + localeService.getLocale() + '.html';
     },
-
-    link: function(scope, elem, attrs) {
-
-      elem.find('#previous-page').click(function() {
-        scope.previousPage();
-        scope.$apply();
-      });
-
-      elem.find('#next-page').click(function() {
-        scope.nextPage();
-        scope.$apply();
-      });
-
-    }
-
   };
 });
 
@@ -34,14 +17,6 @@ app.controller('TableController', function($scope, $http, localeService) {
   var orderDirection = 'asc';
 
   updateDoodads();
-
-  $scope.previousPage = function() {
-    updateDoodads(links.prevPage);
-  };
-
-  $scope.nextPage = function() {
-    updateDoodads(links.nextPage);
-  };
 
   $scope.jsonIntercept = function(url, $event) {
     $event.preventDefault();
@@ -55,14 +30,6 @@ app.controller('TableController', function($scope, $http, localeService) {
 
     orderProperty = property;
     updateDoodads();
-  };
-
-  $scope.notFirstPage = function() {
-    return links.prevPage;
-  };
-
-  $scope.hasMore = function() {
-    return links.nextPage;
   };
 
   function toggleDirection() {
@@ -85,6 +52,7 @@ app.controller('TableController', function($scope, $http, localeService) {
       links = response.data.links;
       $scope.doodads = response.data.doodads;
       $scope.pages = links.pages
+      $scope.links = links
     });
   }
 });

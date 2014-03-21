@@ -1,6 +1,6 @@
 <div>
-  <button id="previous-page" ng-show="notFirstPage()">Previous</button>
-  <button id="next-page" ng-show="hasMore()">Next</button>
+  <button ng-click="jsonIntercept(links.prevPage, $event)" ng-show="links.prevPage != null">Previous</button>
+  <button ng-click="jsonIntercept(links.nextPage, $event)" ng-show="links.nextPage != null">Next</button>
   <table>
     <thead>
       <th ng-click="order('name')">Name</th>
