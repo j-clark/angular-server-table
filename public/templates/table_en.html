@@ -1,9 +1,10 @@
 <div>
-  <button id="previous-page" ng-show="notFirstPage()">Previous</button>
-  <button id="next-page" ng-show="hasMore()">Next</button>
+  <button ng-click="jsonIntercept(links.prevPage, $event)" ng-show="links.prevPage != null">Previous</button>
+  <button ng-click="jsonIntercept(links.nextPage, $event)" ng-show="links.nextPage != null">Next</button>
   <table>
     <thead>
-      <th ng-click="order(header)" ng-repeat="header in headers">{{header}}</th>
+      <th ng-click="jsonIntercept(links.reorderName, $event)">Name</th>
+      <th ng-click="jsonIntercept(links.reorderValue, $event)">Value</th>
     </thead>
     <tbody>
       <tr ng-repeat="doodad in doodads">
@@ -12,4 +13,11 @@
       </tr>
     </tbody>
   </table>
+  <div id="pagination">
+    <span ng-repeat="page in pages">
+      <a href="#" ng-click="jsonIntercept(page.href, $event)">
+        {{ page.num }}
+      </a>
+    </span>
+  </div>
 </div>
