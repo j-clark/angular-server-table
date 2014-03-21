@@ -13,4 +13,11 @@
       </tr>
     </tbody>
   </table>
+  <div id="pagination">
+    <span ng-repeat="page in pages">
+      <a href="#" ng-click="jsonIntercept(page.href, $event)">
+        {{ page.num }}
+      </a>
+    </span>
+  </div>
 </div>

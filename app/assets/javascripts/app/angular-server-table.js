@@ -43,6 +43,11 @@ app.controller('TableController', function($scope, $http, localeService) {
     updateDoodads(links.nextPage);
   };
 
+  $scope.jsonIntercept = function(url, $event) {
+    $event.preventDefault();
+    updateDoodads(url);
+  };
+
   $scope.order = function(property) {
     if(property === orderProperty) {
       toggleDirection();
@@ -76,9 +81,10 @@ app.controller('TableController', function($scope, $http, localeService) {
         orderDirection: orderDirection
       }
     }).then(function(response) {
-      $scope.doodads = response.data.doodads;
       total = response.data.total;
       links = response.data.links;
+      $scope.doodads = response.data.doodads;
+      $scope.pages = links.pages
     });
   }
 });

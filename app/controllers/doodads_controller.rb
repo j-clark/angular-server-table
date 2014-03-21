@@ -10,7 +10,8 @@ class DoodadsController < ApplicationController
           total: doodad_count,
           links: {
             nextPage: page < page_count ? path_for_page(page + 1) : nil,
-            prevPage: page > 1 ? path_for_page(page - 1) : nil
+            prevPage: page > 1 ? path_for_page(page - 1) : nil,
+            pages: 1.upto(page_count).map { |page_num| { num: page_num, href: path_for_page(page_num)} }
           }
         }
       end
