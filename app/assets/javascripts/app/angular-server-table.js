@@ -28,21 +28,19 @@ app.directive('serverTable', function(localeService) {
 });
 
 app.controller('TableController', function($scope, $http, localeService) {
-  var page = 1;
   var orderProperty = null;
   var total = null;
+  var links = null;
   var orderDirection = 'asc';
 
   updateDoodads();
 
   $scope.previousPage = function() {
-    page -= 1;
-    updateDoodads();
+    updateDoodads(links.prevPage);
   };
 
   $scope.nextPage = function() {
-    page += 1;
-    updateDoodads();
+    updateDoodads(links.nextPage);
   };
 
   $scope.order = function(property) {
@@ -55,11 +53,11 @@ app.controller('TableController', function($scope, $http, localeService) {
   };
 
   $scope.notFirstPage = function() {
-    return page > 1;
+    return links.prevPage;
   };
 
   $scope.hasMore = function() {
-    return page * 10 < total;
+    return links.nextPage;
   };
 
   function toggleDirection() {
@@ -70,16 +68,17 @@ app.controller('TableController', function($scope, $http, localeService) {
     }
   }
 
-  function updateDoodads() {
-    $http.get('/doodads.json', {
+  function updateDoodads(url) {
+    var url = url || '/doodads.json?page=1'
+    $http.get(url, {
       params: {
-        page: page,
         orderProperty: orderProperty,
         orderDirection: orderDirection
       }
     }).then(function(response) {
       $scope.doodads = response.data.doodads;
       total = response.data.total;
+      links = response.data.links;
     });
   }
 });
