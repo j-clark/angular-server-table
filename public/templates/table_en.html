@@ -3,7 +3,8 @@
   <button id="next-page" ng-show="hasMore()">Next</button>
   <table>
     <thead>
-      <th ng-click="order(header)" ng-repeat="header in headers">{{header}}</th>
+      <th ng-click="order('name')">Name</th>
+      <th ng-click="order('value')">Value</th>
     </thead>
     <tbody>
       <tr ng-repeat="doodad in doodads">
@@ -12,4 +13,11 @@
       </tr>
     </tbody>
   </table>
+  <div id="pagination">
+    <span ng-repeat="page in pages">
+      <a href="#" ng-click="jsonIntercept(page.href, $event)">
+        {{ page.num }}
+      </a>
+    </span>
+  </div>
 </div>

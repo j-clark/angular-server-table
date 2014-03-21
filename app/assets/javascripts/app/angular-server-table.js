@@ -90,7 +90,7 @@ app.controller('TableController', function($scope, $http, localeService) {
 });
 
 app.service('localeService', function() {
-  var locale = 'fr';
+  var locale = 'en';
   return {
     getLocale: function() {
       return locale;
