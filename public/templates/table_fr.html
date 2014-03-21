@@ -3,8 +3,8 @@
   <button ng-click="jsonIntercept(links.nextPage, $event)" ng-show="links.nextPage != null">Le Next</button>
   <table>
     <thead>
-      <th ng-click="order('name')">Le Name</th>
-      <th ng-click="order('value')">Le Value</th>
+      <th ng-click="jsonIntercept(links.reorderName, $event)">Le Name</th>
+      <th ng-click="jsonIntercept(links.reorderValue, $event)">Le Value</th>
     </thead>
     <tbody>
       <tr ng-repeat="doodad in doodads">

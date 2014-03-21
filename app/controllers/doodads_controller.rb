@@ -9,9 +9,11 @@ class DoodadsController < ApplicationController
           doodads: @doodads,
           total: doodad_count,
           links: {
-            nextPage: page < page_count ? path_for_page(page + 1) : nil,
-            prevPage: page > 1 ? path_for_page(page - 1) : nil,
-            pages: 1.upto(page_count).map { |page_num| { num: page_num, href: path_for_page(page_num)} }
+            nextPage: page < page_count ? path_but(page: page + 1) : nil,
+            prevPage: page > 1 ? path_but(page: page - 1) : nil,
+            reorderName: order_property == :name ? path_but(order_asc: !order_asc?) : path_but(order_property: :name, order_asc: true),
+            reorderValue: order_property == :value ? path_but(order_asc: !order_asc?) : path_but(order_property: :value, order_asc: true),
+            pages: 1.upto(page_count).map { |page_num| { num: page_num, href: path_but(page: page_num)} }
           }
         }
       end
@@ -25,9 +27,7 @@ class DoodadsController < ApplicationController
   end
 
   def order
-    return nil unless params[:orderProperty].present?
-
-    "#{params[:orderProperty]} #{params[:orderDirection]}"
+    "#{order_property} #{order_asc? ? 'asc' : 'desc'}"
   end
 
   def page
@@ -46,7 +46,15 @@ class DoodadsController < ApplicationController
     @doodad_count ||= Doodad.count
   end
 
-  def path_for_page(page_num)
-    doodads_path(params.merge(page: page_num))
+  def path_but(exceptions)
+    doodads_path(params.merge(exceptions))
+  end
+
+  def order_property
+    params[:order_property].try(:intern) || :name
+  end
+
+  def order_asc?
+    params[:order_asc] ? params[:order_asc] == 'true' : true
   end
 end
