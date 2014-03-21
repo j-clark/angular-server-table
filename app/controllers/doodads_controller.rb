@@ -4,7 +4,7 @@ class DoodadsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render json: { 
+      format.json { render json: {
         doodads: @doodads,
         total: Doodad.count
       } }
@@ -14,8 +14,7 @@ class DoodadsController < ApplicationController
   private
 
   def offset
-    page = params[:page]
-    10 * (page ? Integer(page) - 1 : 0)
+    10 * (page - 1)
   end
 
   def order
@@ -24,4 +23,7 @@ class DoodadsController < ApplicationController
     "#{params[:orderProperty]} #{params[:orderDirection]}"
   end
 
+  def page
+    params[:page].to_i || 1
+  end
 end
