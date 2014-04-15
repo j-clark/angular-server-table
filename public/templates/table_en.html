@@ -1,21 +1,21 @@
 <div>
-  <button ng-click="jsonIntercept(links.prevPage, $event)" ng-show="links.prevPage != null">Previous</button>
-  <button ng-click="jsonIntercept(links.nextPage, $event)" ng-show="links.nextPage != null">Next</button>
+  <button data-ng-click="jsonIntercept(links.prevPage, $event)" data-ng-show="links.prevPage != null">Previous</button>
+  <button data-ng-click="jsonIntercept(links.nextPage, $event)" data-ng-show="links.nextPage != null">Next</button>
   <table>
     <thead>
-      <th ng-click="jsonIntercept(links.reorderName, $event)">Name</th>
-      <th ng-click="jsonIntercept(links.reorderValue, $event)">Value</th>
+      <th data-ng-click="jsonIntercept(links.reorderName, $event)">Name</th>
+      <th data-ng-click="jsonIntercept(links.reorderValue, $event)">Earnings</th>
     </thead>
     <tbody>
-      <tr ng-repeat="doodad in doodads">
-        <td>{{doodad.name}}</td>
-        <td>{{doodad.value}}</td>
+      <tr data-ng-repeat="doodad in doodads">
+        <td>{{ doodad.name | lastCommaFirst }}</td>
+        <td>{{ doodad.value | currency }}</td>
       </tr>
     </tbody>
   </table>
   <div id="pagination">
-    <span ng-repeat="page in pages">
-      <a href="#" ng-click="jsonIntercept(page.href, $event)">
+    <span data-ng-repeat="page in pages">
+      <a href="#" data-ng-click="jsonIntercept(page.href, $event)">
         {{ page.num }}
       </a>
     </span>

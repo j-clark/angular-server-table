@@ -42,3 +42,9 @@ app.service('localeService', function() {
     }
   };
 });
+
+app.filter('lastCommaFirst', function() {
+  return function(name) {
+    return name.split(' ')[1] + ', ' + name.split(' ')[0];
+  }
+})

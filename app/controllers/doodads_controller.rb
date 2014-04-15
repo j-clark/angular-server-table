@@ -3,7 +3,7 @@ class DoodadsController < ApplicationController
     @doodads = Doodad.all.limit(10).offset(offset).order(order)
 
     respond_to do |format|
-      format.html
+      format.html{render(content_type: "application/xhtml+xml")}
       format.json do
         render json: {
           doodads: @doodads,
